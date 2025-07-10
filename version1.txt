@@ -1,0 +1,33 @@
+15
+2 queso tomate
+0
+2 champinion queso
+0
+2 pina tomate
+1 champinion
+1 albahaca
+0
+2 queso pimiento
+1 tomate
+1 pina
+1 champinion
+1 albahaca
+0
+3 pina tomate albahaca
+1 pimiento
+2 queso albahaca
+0
+1 pina
+0
+2 pimiento champinion
+0
+2 queso champinion
+1 tomate
+2 albahaca tomate
+1 pina
+1 tomate
+1 champinion
+2 pimiento albahaca
+0
+1 tomate
+0

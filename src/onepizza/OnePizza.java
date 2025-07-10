@@ -5,7 +5,11 @@
 package onepizza;
 
 import Model.Cliente;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,78 +29,127 @@ public class OnePizza implements Runnable{
      */
     @Override
     public void run() {
-        Scanner scanner = new Scanner(System.in);
-
-        int C = scanner.nextInt(); // número de clientes
         List<Cliente> clientes = new ArrayList<>();
-
-        Map<String, Integer> contadorGustos = new HashMap<>();
-        Map<String, Integer> contadorDisgustos = new HashMap<>();
-
-        for (int i = 0; i < C; i++) {
-            int G = scanner.nextInt(); // cantidad de gustos
-            Set<String> gustos = new HashSet<>();
-            for (int j = 0; j < G; j++) {
-                String ingrediente = scanner.next();
-                gustos.add(ingrediente);
-                contadorGustos.put(ingrediente, contadorGustos.getOrDefault(ingrediente, 0) + 1);
-            }
-
-            int D = scanner.nextInt(); // cantidad de disgustos
-            Set<String> disgustos = new HashSet<>();
-            for (int j = 0; j < D; j++) {
-                String ingrediente = scanner.next();
-                disgustos.add(ingrediente);
-                contadorDisgustos.put(ingrediente, contadorDisgustos.getOrDefault(ingrediente, 0) + 1);
-            }
-
-            clientes.add(new Cliente(gustos, disgustos));
-        }
-
-        // Calcular el puntaje de cada ingrediente con penalización a los disgustos
-        Map<String, Integer> puntaje = new HashMap<>();
         Set<String> todosIngredientes = new HashSet<>();
-        todosIngredientes.addAll(contadorGustos.keySet());
-        todosIngredientes.addAll(contadorDisgustos.keySet());
 
-        for (String ingrediente : todosIngredientes) {
-            int likes = contadorGustos.getOrDefault(ingrediente, 0);
-            int dislikes = contadorDisgustos.getOrDefault(ingrediente, 0);
-            int score = likes - dislikes; // Penalización más fuerte para los disgustos
-            puntaje.put(ingrediente, score);
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("entrada2.txt"));
+            Scanner scanner = new Scanner(reader);
+
+            int C = scanner.nextInt();
+
+            for (int i = 0; i < C; i++) {
+                int G = scanner.nextInt(); //cantidad de gustos
+                Set<String> gustos = new HashSet<>();
+                for (int j = 0; j < G; j++) {
+                    String ingrediente = scanner.next();
+                    gustos.add(ingrediente);
+                    todosIngredientes.add(ingrediente);
+                }
+
+                int D = scanner.nextInt(); // cantidad de disgustos
+                Set<String> disgustos = new HashSet<>();
+                for (int j = 0; j < D; j++) {
+                    String ingrediente = scanner.next();
+                    disgustos.add(ingrediente);
+                    todosIngredientes.add(ingrediente);
+                }
+
+                clientes.add(new Cliente(gustos, disgustos));
+            }
+        } catch (IOException e) {
+            System.err.println("Error leyendo el archivo: " + e.getMessage());
+            return;
+        }
+        // NUEVA HEURÍSTICA AQUÍ
+        Map<String, Double> puntaje = new HashMap<>();
+        for (Cliente c : clientes) {
+            for (String like : c.getLikes()) {
+                double peso = (c.getDislikes().isEmpty()) ? 2.0 : 1.0; // Doble peso si no tiene dislikes
+                puntaje.put(like, puntaje.getOrDefault(like, 0.0) + peso);
+            }
+            for (String dislike : c.getDislikes()) {
+                puntaje.put(dislike, puntaje.getOrDefault(dislike, 0.0) - 3.0); // Penalización fuerte
+            }
         }
 
-        // Ordenar por puntaje
-        List<String> ordenados = new ArrayList<>(todosIngredientes);
-        ordenados.sort((a, b) -> Integer.compare(puntaje.getOrDefault(b, 0), puntaje.getOrDefault(a, 0)));
-
-        // Seleccionar ingredientes con puntaje positivo
-        // Ahora se evita que agregar ingredientes que puedan perjudicar la satisfacción general.
-        Set<String> pizza = new HashSet<>();
+        Set<String> mejorPizza = new HashSet<>();
         int mejorSatisfaccion = 0;
 
-        for (String ingrediente : ordenados) {
-            Set<String> nuevaPizza = new HashSet<>(pizza);
-            nuevaPizza.add(ingrediente);
+        for (int intento = 0; intento < 1000; intento++) {
+            List<String> ordenados = new ArrayList<>(todosIngredientes);
+            ordenados.sort((a, b) -> Double.compare(puntaje.getOrDefault(b, 0.0), puntaje.getOrDefault(a, 0.0)));
 
-            int nuevaSatisfaccion = Evaluar.contarClientesSatisfechos(nuevaPizza, clientes);
+             // Pequeño shuffle para evitar determinismo en top ingredientes
+            if (ordenados.size() > 5) {
+                List<String> top = ordenados.subList(0, 5);
+                Collections.shuffle(top);
+            }
 
-            if (nuevaSatisfaccion >= mejorSatisfaccion) {
-                pizza = nuevaPizza;
-                mejorSatisfaccion = nuevaSatisfaccion;
+            Set<String> pizza = new HashSet<>();
+            int satisfaccion = 0;
+            
+            //greedy + validacion
+            for (String ing : ordenados) {
+                Set<String> nuevaPizza = new HashSet<>(pizza);
+                nuevaPizza.add(ing);
+                int nuevaSatisfaccion = Evaluar.contarClientesSatisfechos(nuevaPizza, clientes);
+                if (nuevaSatisfaccion >= satisfaccion) {
+                    pizza = nuevaPizza;
+                    satisfaccion = nuevaSatisfaccion;
+                }
+            }
+
+            // Mejora local 
+            boolean hayMejora = true;
+            while (hayMejora) {
+                hayMejora = false;
+                for (String ing : todosIngredientes) {
+                    Set<String> prueba = new HashSet<>(pizza);
+                    if (pizza.contains(ing)) {
+                        prueba.remove(ing);
+                    } else {
+                        prueba.add(ing);
+                    }
+                    int nuevaSatisfaccion = Evaluar.contarClientesSatisfechos(prueba, clientes);
+                    if (nuevaSatisfaccion > satisfaccion) {
+                        pizza = prueba;
+                        satisfaccion = nuevaSatisfaccion;
+                        hayMejora = true;
+                        break;
+                    }
+                }
+            }
+            // guarda la mejor pizza
+            if (satisfaccion > mejorSatisfaccion) {
+                mejorSatisfaccion = satisfaccion;
+                mejorPizza = pizza;
             }
         }
 
-        // Evaluar la cantidad de clientes satisfechos
-        int satisfechos = Evaluar.contarClientesSatisfechos(pizza, clientes);
+        int totalClientes = clientes.size();
+        int insatisfechos = totalClientes - mejorSatisfaccion;
 
-        // Imprimir resultado
-        System.out.print(pizza.size());
-        for (String ingrediente : pizza) {
-            System.out.print(" " + ingrediente);
+        // Imprimir resultados
+        System.out.print(mejorPizza.size());
+        for (String ing : mejorPizza) {
+            System.out.print(" " + ing);
         }
         System.out.println();
-        System.out.println("Clientes satisfechos: " + satisfechos);
-        System.out.println("Pizza generada: " + pizza);
+        System.out.println("Clientes satisfechos: " + mejorSatisfaccion);
+        System.out.println("Clientes insatisfechos: " + insatisfechos);
+        System.out.println("Total de clientes: " + totalClientes);
+        System.out.println("Pizza generada: " + mejorPizza);
+
+        System.out.println("\n--- Clientes insatisfechos ---");
+        int index = 1;
+        for (Cliente c : clientes) {
+            if (!c.satisfecho(mejorPizza)) {
+                System.out.println("Cliente " + index + ":");
+                System.out.println("  Likes: " + c.getLikes());
+                System.out.println("  Dislikes: " + c.getDislikes());
+            }
+            index++;
+        }
     }
 }

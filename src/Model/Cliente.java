@@ -4,7 +4,6 @@
  */
 package Model;
 
-import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -20,8 +19,14 @@ public class Cliente {
         this.dislikes = dislikes;
     }
     
-    public boolean satisfecho(Set<String>pizza){
-        return pizza.containsAll(likes) && Collections.disjoint(pizza, dislikes);
+    public boolean satisfecho(Set<String> pizza) {
+        for (String like : likes) {
+            if (!pizza.contains(like)) return false;
+        }
+        for (String dislike : dislikes) {
+            if (pizza.contains(dislike)) return false;
+        }
+        return true;
     }
 
     public Set<String> getLikes() {

@@ -1,0 +1,201 @@
+100
+4 champinon pimiento queso tomate
+1 albahaca
+3 tomate queso pina
+0
+2 tomate champinon
+0
+3 tomate albahaca queso
+1 pina
+2 pimiento queso
+1 albahaca
+3 queso pina tomate
+1 albahaca
+3 albahaca queso pimiento
+1 champinon
+3 pina pimiento queso
+0
+3 pina queso pimiento
+1 albahaca
+3 pina tomate pimiento
+0
+5 champinon queso pimiento tomate pina
+0
+2 pina queso
+1 albahaca
+4 tomate queso albahaca pimiento
+1 champinon
+3 pimiento pina queso
+1 albahaca
+2 pimiento albahaca
+1 champinon
+3 pina tomate albahaca
+1 queso
+3 tomate queso champinon
+1 albahaca
+2 pimiento pina
+0
+2 pimiento tomate
+1 albahaca
+2 queso pimiento
+0
+4 champinon pina queso tomate
+1 albahaca
+3 tomate champinon queso 
+1 pimiento
+3 tomate albahaca pina
+1 pimiento
+3 champinon tomate queso
+0
+1 pimiento
+4 pina champinon albahaca tomate
+3 albahaca pina pimiento
+3 tomate champinon queso
+2 pina queso
+0
+3 pimiento pina tomate
+1 albahaca
+2 tomate champinon
+1 pina
+2 tomate queso
+1 albahaca
+2 champinon albahaca
+1 queso
+3 pimiento pina champinon
+1 albahaca
+5 albahaca champinon tomate pimiento queso
+1 pina
+3 pina champinon pimiento
+0
+2 queso pina
+1 albahaca
+2 tomate pimiento
+1 albahaca
+2 tomate queso
+2 champinon pimiento
+3 tomate albahaca queso
+1 champinon
+3 pina tomate champinon
+1 albahaca
+4 pina tomate queso champinon
+0
+3 pimiento pina queso
+1 albahaca
+2 tomate queso
+0
+2 queso tomate
+0
+2 pina queso
+0
+1 tomate
+1 pimiento
+1 queso
+1 albahaca
+3 pimiento tomate champinon
+0
+3 pimiento pina tomate
+1 albahaca
+3 champinon pina queso
+1 albahaca
+2 queso champinon
+1 albahaca
+2 pina queso
+1 tomate
+1 albahaca
+0
+1 tomate
+1 pimiento
+1 queso
+1 albahaca
+3 pimiento tomate champinon
+0
+3 pimiento pina tomate
+1 albahaca
+3 champinon pina queso
+1 albahaca
+2 queso champinon
+1 albahaca
+2 pina queso
+1 tomate
+1 albahaca
+0
+2 pina queso
+1 tomate
+1 albahaca
+0
+1 tomate
+1 pimiento
+1 queso
+1 albahaca
+3 pimiento tomate champinon
+0
+3 pimiento pina tomate
+1 albahaca
+3 champinon pina queso
+1 albahaca
+2 queso champinon
+1 albahaca
+2 pina queso 
+1 tomate
+1 albahaca
+0
+2 pina queso
+1 tomate
+1 albahaca
+0
+1 tomate
+1 pimiento
+1 queso
+1 albahaca
+3 pimiento tomate champinon
+0
+3 pimiento pina tomate
+1 albahaca
+3 champinon pina queso
+1 albahaca
+2 queso champinon
+1 albahaca
+2 pina queso 
+1 tomate
+1 albahaca
+0
+1 pina
+1 tomate
+1 albahaca
+0
+1 pina
+1 pimiento
+2 queso pina
+1 albahaca
+3 pimiento pina champinon
+1 tomate
+3 albahaca pina tomate
+1 queso
+3 champinon pina queso
+1 albahaca
+2 queso champinon
+1 albahaca
+2 pina queso
+1 tomate
+2 pina pimiento
+0
+2 pina queso
+1 albahaca
+1 pina
+0
+2 tomate albahaca
+1 pina
+2 queso tomate
+1 albahaca
+3 pimiento tomate queso
+0
+3 pimiento pina tomate
+1 albahaca
+3 champinon pina queso
+1 albahaca
+1 champinon
+1 queso
+2 pina queso
+1 albahaca
+2 tomate pimiento
+0
